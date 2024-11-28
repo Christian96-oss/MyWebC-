@@ -1,0 +1,126 @@
+﻿@using MYWEB.Function
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    if (HttpContextAccessor.HttpContext.Session == null)
+    {
+        Url.Action("SignOut", "Login");
+    }
+}
+@{
+    Layout = "~/Views/Shared/_LayoutDash.cshtml";
+    var userApps = HttpContextAccessor.HttpContext?.Session.GetString("apps") ?? "";
+    var canAccessMyLearn = userApps.Contains("MyLearn");
+    var canAccessMyPort = userApps.Contains("MyPort");
+    var canAccessMyJourney = userApps.Contains("MyJourney");
+}
+
+<div class="container-fluid bg-home position-relative">
+    <div class="d-flex w-100 flex-wrap justify-content-lg-evenly justify-content-center pt-3 pb-4">
+        <div class="pt-0" style="width:220px">
+            <img src="~/assets/backroundd.png" class="w-100 rounded-circle">
+        </div>
+        <div class="p-3 pt-0 mt-0 text-light text-justify" style="width:805px">
+            <h1>MyWeb</h1>
+            <p class="text-justify" style="text-align: justify;">
+                MyWeb is a platform designed to store learning history as a student, <br />
+                showcase a portfolio, and assist in the job search journey
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container-fluid bg-light">
+    <h5 class="display-5 text-center mt-1">Welcome to MyWeb</h5>
+    <div class="d-flex justify-content-center p-md-2 pt-0">
+        <h4 class="display-6 text-dt"></h4>
+    </div>
+    <div class="container-fluid">
+        <div class="row gx-4 gy-4">
+            <div class="col-md-4">
+                <div class="card w-80 @(canAccessMyLearn ? "bg-my" : "bg-disabled") border mb-3" data-aos="fade-right" data-aos-easing="ease-out-cubic" data-aos-duration="2000" style="border-radius: 20px;">
+                    @if (canAccessMyLearn)
+                    {
+                        <a href="@Url.Action("RoleRoadmap", "Admin")" class="text-decoration-none">
+                            <div class="card-body text-center">
+                                <img src="~/assets/MyLearnn.png">
+                                <i class="text-light bi bi-send" style="font-size: 3em ;"></i>
+                                <h6 class="text-light mt-3 mr-4">MyLearn</h6>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="card-body text-center">
+                            <img src="~/assets/MyLearnn.png">
+                            <i class="text-light bi bi-send" style="font-size: 3em ;"></i>
+                            <h6 class="text-light mt-3">MyLearn</h6>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card w-80 @(canAccessMyPort ? "bg-my" : "bg-disabled") border mb-3" data-aos="fade-down" data-aos-easing="ease-out-cubic" data-aos-duration="2000" style="border-radius: 20px;">
+                    @if (canAccessMyPort)
+                    {
+                        <a href="@Url.Action("Certificate", "Admin")" class="text-decoration-none" id="sampleTrackLink">
+                            <div class="card-body text-center">
+                                <img src="~/assets/MyPortt.png">
+                                <i class="text-light bi bi-send" style="font-size: 3em ;"></i>
+                                <h6 class="text-light mt-3">MyPort</h6>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="card-body text-center">
+                            <img src="~/assets/MyPortt.png">
+                            <i class="text-light bi bi-send" style="font-size: 3em ;"></i>
+                            <h6 class="text-light mt-3">MyPort</h6>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card w-80 @(canAccessMyJourney ? "bg-my" : "bg-disabled") border mb-3" data-aos="fade-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" style="border-radius: 20px;">
+                    @if (canAccessMyJourney)
+                    {
+                        <a href="@Url.Action("LamaranHistory", "Admin")" class="text-decoration-none" id="checkListLink">
+                            <div class="card-body text-center">
+                                <img src="~/assets/MyJourneyy.png">
+                                <i class="text-light bi bi-send" style="font-size: 3em ;"></i>
+                                <h6 class="text-light mt-3">MyJourney</h6>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="card-body text-center">
+                            <img src="~/assets/MyJourneyy.png">
+                            <i class="text-light bi bi-send" style="font-size: 3em ;"></i>
+                            <h6 class="text-light mt-3">MyJourney</h6>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 12px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .bg-disabled {
+        background-color: #d3d3d3;
+        pointer-events: none;
+    }
+</style>

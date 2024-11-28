@@ -1,0 +1,596 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@{
+    Layout = "~/Views/Shared/_LayoutMyPort.cshtml";
+}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div class="d-flex">
+                                <h2 class="text-dark"><i class="fa fa-folder"></i>Platform</h2>&nbsp;
+                                <h2 class="text-dt">Master Data</h2>
+                                <div class="ml-3 mt-2">
+                                    <button class="btn btn-primary btn-sm" onclick="addData()">
+                                        <i class="fa fa-plus"></i> Add Master Data
+                                    </button>
+                                    <button class="btn btn-sm btn-info" onclick="upload_excel()"><i class="fas fa-file-upload"></i> Import Data </button>
+                                    <button class="btn btn-success btn-sm" onclick="downloadData()">
+                                        <i class="fa fa-download"></i> Download Data
+                                    </button>
+                                    <button class="btn btn-sm btn-danger btn-sm" id="delete_select"><i class="fas fa-trash"></i> Delete Selected Data</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8 col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label style="font-size:10pt;font-weight:bold;">Platform</label>
+                                    <select class="form-control form-control-sm text-center" id="select_platform" style="width:100%;">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-6">
+                                <label style="font-size:10pt;"></label>
+                                <div>
+                                    <button id="btn_apply" name="btn_apply" class="btn btn-success btn-sm btn-block mt-2"><i class="fa fa-search mr-1"></i>Apply </button>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-1 col-sm-6">
+                                <label style="font-size:10pt;"></label>
+                                <div>
+                                    <button id="btn_reset" name="btn_reset" class="btn btn-sm btn-warning btn-block mt-2" onclick="window.location.reload()"><i class="fa fa-history mr-1"></i> </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <table class="table table-sm table-striped border" rules=none id="tbl_details_filter" style="font-size:10pt;">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="2%"><input type="checkbox" id="checkAll" onClick="toggle(this)" /> Check All</th>
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="10%">Platform</th>
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="10%">Modify By</th>
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="10%">Last Update</th>
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="10%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table_details">
+                                    </tbody>
+                                </table>
+                                <div id="spinner_loading" class="text-center mt-2">
+                                    <i class="fas fa-spinner fa-spin fa-lg" style="font-size:30pt;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="modal_edit" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-white" style="background-color:#1b6ec2">
+                <h5><i class="fa fa-info-circle mr-2"></i> Edit Master Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row ml-2 mr-2">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label style="font-size:10pt;font-weight:bold;">Platform<span style="color: red; font-weight:bold;">*</span></label>
+                            <input type="text" id="platformxx" class="form-control form-control-sm" />
+                            <input type="text" id="id" class="form-control form-control-sm" hidden />
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label style="font-size:12pt;"></label>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-3 mx-auto">
+                                <button class="btn btn-primary btn-block" id="btn_lead" onclick="verify_save()"><i class="fas fa-save"></i> Save </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal_add" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-white" style="background-color:#1b6ec2">
+                <h5><i class="fa fa-info-circle mr-2"></i> Add Master Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row ml-2 mr-2">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label style="font-size:10pt;font-weight:bold;">Platform<span style="color: red; font-weight:bold;">*</span></label>
+                            <input type="text" id="platformxx2" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label style="font-size:12pt;"></label>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-3 mx-auto">
+                                <button class="btn btn-primary btn-block" id="create_Data"><i class="fas fa-plus"></i> Add Master Data </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal_upload" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-white" style="background-color:#1b6ec2">
+                <h5><i class="fa fa-info-circle mr-2"></i> Upload Master Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row ml-2 mr-2">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label style="font-size:10pt;font-weight:bold;">Download Template </label>
+                            <a class="btn btn-success d-block" href="~/template/platform.xlsx">Download</a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label style="font-size:10pt;font-weight:bold;">Upload File<span style="color: red; font-weight:bold;">*</span></label>
+                            <input type="file" id="fileexcel" class="form-control form-control-sm file-upload" name="myExcelData" />
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label style="font-size:12pt;"></label>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-3 mx-auto">
+                                <button class="btn btn-success btn-block" id="upload_Data"><i class="fas fa-upload"></i> Upload Master Data </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script src="~/lib/adminlte/plugins/chart.js/Chart.min.js"></script>
+    <script src="~/lib/adminlte/plugins/chart.js/chartjs-plugin-datalabels@1.1.2.js"></script>
+    <script>
+        let isSearch = false;
+        function upload_excel() {
+            $('#modal_upload').modal('show');
+        }
+
+        function toggle(source) {
+            checkboxes = document.getElementsByName('foo');
+            for (var i = 0, n = checkboxes.length; i < n; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+
+        $(document).ready(function () {
+            $('#select_platform').select2({
+                placeholder: 'Select Platform',
+                width: '100%',
+                ajax: {
+                    url: "@Url.Action("GetPlatformMst")",
+                    async: false,
+                    data: function (params) {
+                        return {
+                            family: params.term,
+                            //sector: 'none'
+                        };
+                    },
+                    processResults: function (data) {
+                        //console.log(data);
+                        return {
+                            results: data.items
+                        }
+                    },
+                }
+            });
+
+            setTimeout(function () {
+                $('button[name=btn_apply]').click();
+            }, 1000);
+
+            window.setTimeout(function () {
+                location.reload();
+            }, 900000);
+        })
+
+        $('button[name=btn_apply]').click(function () {
+
+            platformxx = $("#select_platform").val();
+
+            $("#table_details").html('');
+            var table = $("#table_details");
+            var table1 = $("#tbl_details_filter");
+            $.ajax({
+                url: "@Url.Action("GET_PLATFORM")",
+                type: "POST",
+                data: {
+                    platform: platformxx
+                },
+                success: function (data) {
+                    //console.log(data)
+                    if (!isSearch)
+                        isSearch = true;
+                    else
+                        table1.DataTable().destroy();
+                    table.html(data);
+                    table1.DataTable({
+                        dom: 'lrtpi',
+                        pagingType: 'numbers',
+                        searching: false
+                    });
+                },
+                complete: function () {
+                    $('#spinner_loading').hide();
+                }
+            });
+        })
+
+
+        function btn_delete(id) {
+
+            if (id == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please Fill in All the requirement first !'
+                })
+            }
+            else {
+                Swal.fire({
+                    title: 'Delete ?',
+                    text: "Are you sure to Delete this Master Data ? ",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Yes!',
+                    cancelButtonText: 'No!',
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                        return new Promise(function (resolve, reject) {
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("DeletePlatform", "Admin")",
+                                data: {
+                                    id: id
+                                },
+                                dataType: "json",
+                                success: function () {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Deleted Successfully !'
+                                    })
+                                    window.location.href = '@Url.Action("PlatformMasterData", "Admin")';
+                                },
+                                complete: function () {
+                                    $('#spinner_loading').hide();
+                                }
+                            });
+
+                        })
+                    }
+
+                })
+
+            }
+        }
+
+        $("#delete_select").click(function () {
+            var selectedIDs = [];
+            $('input:checkbox.select_item:checked').each(function () {
+                selectedIDs.push({ id: $(this).val() });
+            });
+
+            console.log("Selected IDs:", selectedIDs); // Tampilkan ID yang dipilih di console
+
+            if (selectedIDs.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please select at least one item!'
+                });
+            } else {
+                Swal.fire({
+                    title: 'Delete Platform?',
+                    text: "Are you sure for this action?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Yes!',
+                    cancelButtonText: 'No!',
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                        return $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("Delete_selected2", "Admin")",
+                            data: JSON.stringify(selectedIDs),
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function () {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: 'Deleted successfully!'
+                                });
+                                window.location.href = '@Url.Action("PlatformMasterData", "Admin")';
+                            },
+                            error: function (xhr, status, error) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Something went wrong!'
+                                });
+                                console.error(xhr.responseText);
+                            },
+                            complete: function () {
+                                $('#spinner_loading').hide();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        function btn_edit(id, platformxx) {
+            $('#platformxx').val(platformxx)
+            $('#id').val(id)
+
+            $("#modal_edit").modal('show');
+        }
+
+        function addData() {
+            $('#modal_add').modal('show');
+        }
+
+        function verify_save() {
+            var id = $('#id').val();
+            var platformxx = $('#platformxx').val();
+
+            if (platformxx == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please Fill in All the requirement first!'
+                });
+            } else {
+                Swal.fire({
+                    title: 'Edit Platform?',
+                    text: "Are you sure for this action?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Yes!',
+                    cancelButtonText: 'No!',
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                        return new Promise(function (resolve, reject) {
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("UpdatePlatform", "Admin")",
+                                data: {
+                                    id: id,
+                                    platform: platformxx
+                                },
+                                success: function (data) {
+                                    if (data === -1) {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Error',
+                                            text: 'Data already exists!'
+                                        });
+                                        $('#spinner_loading').hide();
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Success',
+                                            text: 'Edit Successfully!'
+                                        });
+                                        $('#spinner_loading').hide();
+                                        window.location.href = '@Url.Action("PlatformMasterData", "Admin")';
+                                    }
+                                },
+                                complete: function () {
+                                    $('#spinner_loading').hide();
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+        }
+
+        $("#create_Data").click(function () {
+            var platformxx = $('#platformxx2').val();
+
+            if (platformxx == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please Fill in All the requirements first!'
+                });
+            } else {
+                Swal.fire({
+                    title: 'Add Platform Master Data?',
+                    text: "Are you sure for this action?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Yes!',
+                    cancelButtonText: 'No!',
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                        return new Promise(function (resolve, reject) {
+                            $.ajax({
+                                type: "POST",
+                                async: true,
+                                url: "@Url.Action("AddPlatform", "Admin")",
+                                data: {
+                                    platform: platformxx
+                                },
+                                success: function (data) {
+                                    if (data.success) {
+                                        Swal.fire({
+                                            title: 'Added!',
+                                            text: 'Your Platform has been Added.',
+                                            icon: 'success'
+                                        });
+                                        $('#spinner_loading').hide();
+                                        location.reload();
+                                    } else if (!data.success && data.message === "Data sudah ada.") {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Error',
+                                            text: 'Data already exists!'
+                                        });
+                                        $('#spinner_loading').hide();
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Error',
+                                            text: data.message || 'An error occurred.'
+                                        });
+                                        $('#spinner_loading').hide();
+                                    }
+                                },
+                            });
+                        });
+                    }
+                });
+            }
+        });
+
+        $("#upload_Data").click(function () {
+            var formData = new FormData();
+            var fuUploadFile = document.getElementById("fileexcel");
+
+
+            if (fuUploadFile.files.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please Fill in All the requirement first !'
+                })
+            }
+            else {
+
+                var myFile = fuUploadFile.files[0];
+                formData.append("myExcelData", myFile);
+                console.log(formData)
+
+                Swal.fire({
+                    title: 'Upload Platform Master Data ?',
+                    text: "Are you sure for this action? ",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Yes!',
+                    cancelButtonText: 'No!',
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                        return new Promise(function (resolve, reject) {
+                            $.ajax({
+                                type: "POST",
+                                async: false,
+                                contentType: false,
+                                processData: false,
+                                url: "@Url.Action("UploadPlatform", "Admin")",
+                                data: formData,
+                                success: function (data) {
+                                    Swal.fire(
+                                        'Added!',
+                                        'Your Platform has been Added.',
+                                        'success'
+                                    )
+                                    window.location.href = '@Url.Action("PlatformMasterData", "Admin")';
+                                },
+                                complete: function () {
+                                    $('#spinner_loading').hide();
+                                }
+                            });
+
+                        })
+                    }
+                })
+            }
+        })
+
+        function downloadData() {
+            var platformxx = $('#select_platform option:selected').text();
+            window.location.href = "@Url.Action("ExportPlatform", "Admin")?platformxx=" + platformxx;
+
+        }
+    </script>
+    <style>
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 12px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .modal-dialog {
+            max-width: 110% !important;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        .modal {
+            padding-right: 4px !important;
+            padding: .5%;
+        }
+
+        .form-control-sm.file-upload {
+            height: calc(1.8125rem + 13px);
+            padding: -1.75rem 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border-radius: 0.2rem;
+        }
+    </style>
+}
+
+
+

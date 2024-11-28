@@ -1,0 +1,266 @@
+﻿@using MYWEB.Function
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    if (HttpContextAccessor.HttpContext.Session == null)
+    {
+        Url.Action("SignOut", "Login");
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MYWEB</title>
+
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico">
+
+    <!--FontAwesome-->
+    <link href="~/lib/adminlte/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="~/lib/adminlte/plugins/fontawesome-free/css/fontawesome.min.css" rel="stylesheet" />
+    <link href="~/lib/adminlte/plugins/fontawesome-free/css/solid.min.css" rel="stylesheet" />
+
+    <!--Bootsrapt 4-->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/DataTables-1.10.22/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="~/lib/select2-4.1.0/select2.min.css" />
+
+    <!-- Admin LTE-->
+    <link href="~/lib/adminlte/plugins/sweetalert2/sweetalert2.css" rel="stylesheet" />
+    <link href="~/lib/adminlte/plugins/chart.js/Chart.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/lib/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- AOS-->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+</head>
+<body class="layout-navbar-fixed" style="padding: 0 !important; margin: 0 !important">
+    <div class="wrapper">
+        <!--Navbar-->
+        @if (HttpContextAccessor.HttpContext.Session.GetString("level") == "admin")
+        {
+            <nav class="navbar px-3 navbar-expand-lg navbar-dark bg-my p-0 m-0 text-light w-100">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="~/Admin/Dash">
+                        <img src="~/assets/Mylogoo.png" width="35px" class="text-light" alt="Logo">
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarText">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-white dropdown-toggle" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight:bold; position: relative;">
+                                    @HttpContextAccessor.HttpContext.Session.GetString("name")
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="@Url.Action("SignOut", "Login")">
+                                        <i class="nav-icon fas fa-power-off"></i>&emsp;Logout
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        }
+
+        @if (HttpContextAccessor.HttpContext.Session.GetString("level") == "user")
+        {
+            <nav class="navbar px-3 navbar-expand-lg navbar-dark bg-my p-0 m-0 text-light w-100">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="~/Admin/Dash">
+                        <img src="~/assets/Mylogoo.png" width="35px" class="img-circle" alt="Logo">
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarText">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-white dropdown-toggle" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight:bold; position: relative;">
+                                    @HttpContextAccessor.HttpContext.Session.GetString("name")
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="@Url.Action("SignOut", "Login")"> <i class="nav-icon fas fa-power-off"></i>&emsp;Logout</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        }
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+    </div>
+    <footer class="bg-dt text-center fw-bold pt-1 pb-0">
+        <!-- Copyright -->
+        <strong>© 2024 Copyright MyWeb by Christian  <a href="#"></a></strong>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/DataTables-1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/DataTables-1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/adminlte/plugins/moment/moment.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/adminlte/dist/js/adminlte.min.js"></script>
+    <script src="~/lib/adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/select2-4.1.0/select2.min.js"></script>
+    <script src="~/lib/adminlte/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <script src="~/lib/adminlte/plugins/chart.js/Chart.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            duration: 200,
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/TextPlugin.min.js"></script>
+    <script>
+        gsap.registerPlugin(TextPlugin);
+        gsap.to('.display-6', { duration: 1.0, text: 'Start with Features' });
+        gsap.from('.display-5', { duration: 0.5, x: -50, opacity: 0 });
+    </script>
+    <script>
+        $('body').on("click", function (e) {
+            $(this).removeClass('sidebar-open');
+            //console.log("yes");
+        });
+
+        var select = document.getElementById("option_plant");
+        select.addEventListener("change", function () {
+            var selectedOption = select.options[select.selectedIndex];
+            var optionValue = selectedOption.value;
+            var password = '';
+            var sesa = '@HttpContextAccessor.HttpContext.Session.GetString("sesa_id")';
+            switch (optionValue) {
+                case "1":
+                    plant_id = '1';
+                    break;
+                case "2":
+                    plant_id = '2';
+                    break;
+                case "3":
+                    plant_id = '3';
+                    break;
+            }
+            $.ajax({
+                url: "@Url.Action("GetPassword")",
+                type: "POST",
+                data: {
+                    plant: plant_id
+                },
+                success: function (data) {
+                    console.log(data[0].password)
+                    password = data[0].password;
+                    $.ajax({
+                        url: "@Url.Action("Index", "Login")",
+                        type: "POST",
+                        data: {
+                            sesa_id: sesa,
+                            password: password,
+                            plant: plant_id
+                        },
+                        success: function (data) {
+                            window.location.reload();
+                        },
+                    });
+                },
+            });
+        });
+
+
+        $(document).ready(function () {
+            $('.navbar-toggler').on('click', function () {
+                $('body').toggleClass('sidebar-open');
+            });
+
+            // Ini adalah script untuk mengaktifkan tombol close pada modal
+            $('.modal').on('shown.bs.modal', function () {
+                $('[data-dismiss=modal]').on('click', function () {
+                    $(this).closest('.modal').modal('hide');
+                });
+            });
+
+
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+<style>
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Pastikan sidebar memiliki posisi relatif */
+    .sidebar {
+        position: relative;
+    }
+
+    /* Pastikan navbar memiliki posisi relatif */
+    .nav-item {
+        position: relative;
+    }
+
+        /* Atur dropdown menu agar tampil di bawah nav-link dan mengambil lebar penuh */
+        .nav-item .dropdown-menu {
+            position: absolute;
+            width: 17%; /* Mengambil lebar penuh dari nav-item */
+            left: 0; /* Menjaga dropdown menu berada di bawah nav-link */
+            top: 100%; /* Menempatkan dropdown di bawah elemen nav-item */
+            background-color: black; /* Latar belakang hitam untuk dropdown */
+            border: none; /* Hapus border default */
+            box-shadow: none; /* Hapus bayangan default */
+            margin-top: 2px;
+        }
+
+        /* Mengubah kursor menjadi pointer saat dihover */
+        .nav-item a {
+            cursor: pointer;
+        }
+
+    /* Gaya default untuk item submenu */
+    .dropdown-menu .dropdown-item {
+        background-color: black; /* Latar belakang hitam */
+        color: white; /* Teks putih */
+        font-weight: bold;
+        margin-top: 2px;
+    }
+
+        /* Mengubah gaya saat kursor diarahkan */
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #1b6ec2; /* Latar belakang ungu */
+            color: white; /* Teks putih */
+            font-weight: bold;
+        }
+
+    /* Gaya untuk item Dashboard */
+    .nav-item .nav-link p, .info a {
+        color: white; /* Teks putih */
+        font-weight: bold; /* Teks tebal (bold) */
+        padding: 0.5rem 1rem;
+    }
+
+    .image img {
+        width: 50px; /* Atur ukuran lebar dan tinggi yang sama */
+        height: 50px;
+        border-radius: 50%; /* Membuat gambar menjadi bulat */
+        object-fit: cover; /* Memastikan gambar menyesuaikan dengan lingkaran */
+    }
+</style>

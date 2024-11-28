@@ -1,0 +1,85 @@
+﻿@using System.Globalization
+@using Microsoft.AspNetCore.Http
+@model List<ProjectModel>
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    bool onlyAdmin = HttpContextAccessor.HttpContext.Session.GetString("level") != "user";
+}
+
+@foreach (ProjectModel item in Model)
+{
+    <tr>
+        <td class="align-middle text-center border-right"><input type="checkbox" name="foo" class="select_item" value="@item.id_pj" /></td>
+        <td class="align-middle text-center border-right">@item.pj_name</td>
+        <td class="align-middle text-center border-right">@item.pj_date</td>
+        <td class="align-middle text-center border-right">@item.duration</td>
+        <td class="align-middle text-center border-right">@item.platform</td>
+        <td class="align-middle text-center border-right">@item.frontend</td>
+        <td class="align-middle text-center border-right">@item.backend</td>
+        <td class="align-middle text-center border-right">@item.databases</td>
+        <td class="align-middle text-center border-right">@item.made_by</td>
+        <td class="align-middle text-center border-right">
+            @if (string.IsNullOrEmpty(item.pj_yt))
+            {
+                <span style="font-size: 10px;">-</span>
+            }
+            else
+            {
+                @item.pj_yt
+            }
+        </td>
+        <td class="align-middle text-center border-right">
+            @if (string.IsNullOrEmpty(item.pj_gd))
+            {
+                <span style="font-size: 10px;">-</span>
+            }
+            else
+            {
+                @item.pj_gd
+            }
+        </td>
+        <td class="align-middle text-center border-right">
+            @if (string.IsNullOrEmpty(item.keterangan))
+            {
+                <span style="font-size: 10px;">-</span>
+            }
+            else
+            {
+                @item.keterangan
+            }
+        </td>
+        <td class="align-middle text-center border-right">
+            @if (string.IsNullOrEmpty(item.ref_by))
+            {
+                <span style="font-size: 10px;">-</span>
+            }
+            else
+            {
+                @item.ref_by
+            }
+        </td>
+        <td class="align-middle text-center border-right">
+            <button class="btn btn-warning view-pdf-btn" style="width:3rem;" data-pdf-url="@Url.Content("~/project/" + @item.pj_zip)" style="padding: 0;">
+                <i class="fas fa-eye"></i>
+            </button>
+        </td>
+        <td class="align-middle text-center border-right">@item.record_date</td>
+        <td class="align-middle text-center border-right">
+            @if (string.IsNullOrEmpty(item.last_update))
+            {
+                <span style="font-size: 10px;">-</span>
+            }
+            else
+            {
+                @item.last_update
+            }
+        </td>
+        @if (onlyAdmin)
+        {
+        <td class="align-middle text-center">
+                <button class="btn btn-primary mb-1 mt-1" style="width:3rem;" id="EDIT" onclick="btn_edit('@item.id_pj', '@item.pj_name', '@item.pj_date', '@item.duration', '@item.platform', '@item.frontend', '@item.backend', '@item.databases', '@item.made_by', '@item.pj_yt', '@item.pj_gd', '@item.keterangan', '@item.ref_by', '@item.pj_zip')"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger mb-1 mt-1" id="DELETE" style="width:3rem;" onclick="btn_delete('@item.id_pj')"><i class="fas fa-trash"></i></button>
+        </td>
+        }
+    </tr>
+}

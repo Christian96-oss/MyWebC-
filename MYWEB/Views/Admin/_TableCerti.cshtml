@@ -1,0 +1,51 @@
+﻿@using System.Globalization
+@using Microsoft.AspNetCore.Http
+@model List<CertiModel>
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    bool onlyAdmin = HttpContextAccessor.HttpContext.Session.GetString("level") != "user";
+}
+
+@foreach (CertiModel item in Model)
+{
+    <tr>
+        <td class="align-middle text-center border-right"><input type="checkbox" name="foo" class="select_item" value="@item.id_certi" /></td>
+        <td class="align-middle text-center border-right">@item.item</td>
+        <td class="align-middle text-center border-right">@item.type</td>
+        <td class="align-middle text-center border-right">@item.cert_by</td>
+        <td class="align-middle text-center border-right">@item.year</td>
+        <td class="align-middle text-center border-right">
+            @if (string.IsNullOrEmpty(item.expire))
+            {
+                <span style="font-size: 10px;">-</span>
+            }
+            else
+            {
+                @item.expire
+            }
+        </td>
+        <td class="align-middle text-center border-right">
+            <button class="btn btn-warning view-pdf-btn" style="width:3rem;" data-pdf-url="@Url.Content("~/certi/" + @item.certificate)" style="padding: 0;">
+                <i class="fas fa-eye"></i>
+            </button>
+        </td>
+        <td class="align-middle text-center border-right">@item.record_date</td>
+        <td class="align-middle text-center border-right">
+            @if (string.IsNullOrEmpty(item.last_update))
+            {
+                <span style="font-size: 10px;">-</span>
+            }
+            else
+            {
+                @item.last_update
+            }
+        </td>
+        @if (onlyAdmin)
+        {
+        <td class="align-middle text-center">
+            <button class="btn btn-primary mb-1 mt-1" style="width:3rem;" id="EDIT" onclick="btn_edit('@item.id_certi', '@item.item', '@item.type', '@item.cert_by', '@item.year', '@item.expire', '@item.certificate')"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger mb-1 mt-1" id="DELETE" style="width:3rem;" onclick="btn_delete('@item.id_certi')"><i class="fas fa-trash"></i></button>
+        </td>
+        }
+    </tr>
+}

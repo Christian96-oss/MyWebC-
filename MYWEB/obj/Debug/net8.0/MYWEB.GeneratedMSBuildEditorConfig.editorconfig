@@ -1,0 +1,161 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = MYWEB
+build_property.RootNamespace = MYWEB
+build_property.ProjectDir = D:\PROGRAMMING\Website\C#\MYWEB\MYWEB\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
+build_property.MSBuildProjectDirectory = D:\PROGRAMMING\Website\C#\MYWEB\MYWEB
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/BackendMasterData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQmFja2VuZE1hc3RlckRhdGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/BestPractices.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQmVzdFByYWN0aWNlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/CategoryMasterData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2F0ZWdvcnlNYXN0ZXJEYXRhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/Certificate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2VydGlmaWNhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/Dash.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/DatabasesMasterData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGF0YWJhc2VzTWFzdGVyRGF0YS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/FrontendMasterData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRnJvbnRlbmRNYXN0ZXJEYXRhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/LamaranHistory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGFtYXJhbkhpc3RvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/LokerbyMasterData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTG9rZXJieU1hc3RlckRhdGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/PlatformMasterData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUGxhdGZvcm1NYXN0ZXJEYXRhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/ProjectHistory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvamVjdEhpc3RvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/RoleRoadmap.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUm9sZVJvYWRtYXAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/SendcvbyMasterData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU2VuZGN2YnlNYXN0ZXJEYXRhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/SkillRoadmap.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU2tpbGxSb2FkbWFwLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/_TableBackend.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1RhYmxlQmFja2VuZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/_TableCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1RhYmxlQ2F0ZWdvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/_TableCerti.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1RhYmxlQ2VydGkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/_TableDatabases.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1RhYmxlRGF0YWJhc2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/_TableFrontend.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1RhYmxlRnJvbnRlbmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/_TableLamaran.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1RhYmxlTGFtYXJhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/_TableLokerby.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1RhYmxlTG9rZXJieS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/_TablePlatform.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1RhYmxlUGxhdGZvcm0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/_TableProject.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1RhYmxlUHJvamVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Admin/_TableSendcvby.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1RhYmxlU2VuZGN2YnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Login/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Shared/_LayoutDash.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXREYXNoLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Shared/_LayoutMyJourney.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRNeUpvdXJuZXkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Shared/_LayoutMyLearn.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRNeUxlYXJuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Shared/_LayoutMyPort.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRNeVBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROGRAMMING/Website/C\#/MYWEB/MYWEB/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

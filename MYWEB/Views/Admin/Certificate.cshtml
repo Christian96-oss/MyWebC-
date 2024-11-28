@@ -1,0 +1,870 @@
+﻿@using MYWEB.Models
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    Layout = "~/Views/Shared/_LayoutMyPort.cshtml";
+}
+@{
+    bool onlyAdmin = HttpContextAccessor.HttpContext.Session.GetString("level") != "user";
+}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div class="d-flex">
+                                <h2 class="text-dark"><i class="nav-icon fas fa-award"></i> Certification</h2>&nbsp;
+                                <h2 class="text-dt">Management</h2>
+                                <div class="ml-3 mt-2">
+                                    @if (onlyAdmin)
+                                    { 
+                                    <button class="btn btn-primary btn-sm" onclick="addData()">
+                                        <i class="fa fa-plus"></i> Add  Certification
+                                    </button>
+                                    <button class="btn btn-sm btn-danger btn-sm" id="delete_select"><i class="fas fa-trash"></i> Delete Selected Data</button>
+                                     }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-6">
+                                <label style="font-size:10pt; font-weight:bold;">Date From</label>
+                                <input type="date" id="date_from" value="" class="form-control form-control-sm text-center" />
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6">
+                                <label style="font-size:10pt;font-weight:bold;">Date To</label>
+                                <input type="date" id="date_to" value="" class="form-control form-control-sm text-center" />
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label style="font-size:10pt;font-weight:bold;">Item</label>
+                                    <select class="form-control form-control-sm text-center" id="select_item" style="width:100%;">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label style="font-size:10pt;font-weight:bold;">Type</label>
+                                    <select class="form-control form-control-sm text-center" id="select_type" style="width:100%;">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6">
+                                <label style="font-size:10pt;"></label>
+                                <div>
+                                    <button id="btn_apply" name="btn_apply" class="btn btn-primary btn-sm btn-block mt-2"><i class="fa fa-search mr-1"></i>Apply </button>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-1 col-sm-6">
+                                <label style="font-size:10pt;"></label>
+                                <div>
+                                    <button id="btn_reset" name="btn_reset" class="btn btn-sm btn-warning btn-block mt-2" onclick="window.location.reload()"><i class="fa fa-history mr-1"></i> </button>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label style="font-size:10pt;font-weight:bold;">Certificate By</label>
+                                    <select class="form-control form-control-sm text-center" id="select_by" style="width:100%;">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label style="font-size:10pt;font-weight:bold;">Year</label>
+                                    <select class="form-control form-control-sm text-center" id="select_year" style="width:100%;">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <table class="table table-sm table-striped border" rules=none id="tbl_details_filter" style="font-size:10pt;">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="2%"><input type="checkbox" id="checkAll" onClick="toggle(this)" /> Check All</th>
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="10%">Item</th>
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="10%">Type of Certificate</th>
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="10%">Certified by</th>
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="10%">Year</th>
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="10%">Expire Date</th>
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="10%">Certificate</th>
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="10%">Insert Date</th>
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="10%">Last Update</th>
+                                            @if (onlyAdmin)
+                                            { 
+                                            <th class="font-calibri border-right align-middle text-center text-white" style="background-color:#1b6ec2" width="10%">Action</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table_details">
+                                    </tbody>
+                                </table>
+                                <div id="spinner_loading" class="text-center mt-2">
+                                    <i class="fas fa-spinner fa-spin fa-lg" style="font-size:30pt;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal_edit" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#1b6ec2">
+                <h5 class=" text-white"><i class="fa fa-info-circle mr-2"></i>Edit Certificate</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row ml-2 mr-2">
+                    <div class="col-6">
+                        <div class="card card-outline" id="scan">
+                            <div class="row ml-2 mr-2">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label style="font-size:10pt; font-weight:bold;">Item<span style="color: red; font-weight:bold;">*</span></label>
+                                        <input type="text" id="itemx" class="form-control form-control-sm" />
+                                        <input type="text" id="id" class="form-control form-control-sm" hidden />
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label style="font-size:10pt; font-weight:bold;">Type of Certification<span style="color: red; font-weight:bold;">*</span></label>
+                                        <input type="text" id="typex" class="form-control form-control-sm" />
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label style="font-size:10pt; font-weight:bold;">Certificate by <span style="color: red; font-weight:bold;">*</span></label>
+                                        <textarea class="form-control form-control-sm" id="cert_byx" maxlength="255" style="resize: vertical; min-height: 50px;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card card-outline" id="manual">
+                            <div class="row ml-2 mr-2">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label style="font-size:10pt; font-weight:bold;">Year<span style="color: red; font-weight:bold;">*</span></label>
+                                        <input type="number" id="yearx" class="form-control form-control-sm" />
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label style="font-size:10pt; font-weight:bold;">Expire Date<span style="color: red; font-weight:bold;">*</span></label>
+                                        <input class="form-control form-control-sm" type="date" id="expirex" maxlength="255" />
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label style="font-size:10pt; font-weight:bold;">Upload<span style="color: red; font-weight:bold;">*</span></label>
+                                        <div class="ml-1" id="file_section">
+                                            <input type="file" name="file" accept=".jpg, .bmp, .png, .jfif, .word, .pdf, .pptx" id="actual-btn" hidden />
+                                            <label for="actual-btn" class="actual-btn">Choose file</label>
+                                            <span id="file-chosen" style="width:100%;">No file chosen</span>
+                                            <button id="reset-btn" class="reset-btn" style="display: none;">Hapus</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <div class="ml-1">
+                                            <img id="img-preview" src="" style="width:5rem; height:5rem; display:none;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label style="font-size:12pt;"></label>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-3 mx-auto">
+                                <button class="btn btn-primary btn-block" id="btn_lead" onclick="verify_save()"><i class="fas fa-save"></i> Save </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal_add" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#1b6ec2">
+                <h5 class=" text-white"><i class="fa fa-info-circle mr-2"></i>Add Certificate</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row ml-2 mr-2">
+                    <div class="col-6">
+                        <div class="card card-outline" id="scan">
+                            <div class="row ml-2 mr-2">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label style="font-size:10pt; font-weight:bold;">Item<span style="color: red; font-weight:bold;">*</span></label>
+                                        <input type="text" id="itemx2" class="form-control form-control-sm" />
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label style="font-size:10pt; font-weight:bold;">Type of Certification<span style="color: red; font-weight:bold;">*</span></label>
+                                        <input type="text" id="typex2" class="form-control form-control-sm" />
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label style="font-size:10pt; font-weight:bold;">Certificate by<span style="color: red; font-weight:bold;">*</span></label>
+                                        <textarea class="form-control form-control-sm" id="cert_byx2" maxlength="255" style="resize: vertical; min-height: 50px;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card card-outline" id="manual">
+                            <div class="row ml-2 mr-2">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label style="font-size:10pt; font-weight:bold;">Year<span style="color: red; font-weight:bold;">*</span></label>
+                                        <input type="number" id="yearx2" class="form-control form-control-sm" />
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label style="font-size:10pt; font-weight:bold;">Expire Date</label>
+                                        <input class="form-control form-control-sm" type="date" id="expirex2" maxlength="255" />
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label style="font-size:10pt; font-weight:bold;">Upload<span style="color: red; font-weight:bold;">*</span></label>
+                                        <div class="ml-1" id="file_sectionn">
+                                            <input type="file" name="file" accept=".jpg, .bmp, .png, .jfif, .word, .pdf, .pptx" id="actual-btnn" hidden />
+                                            <label for="actual-btnn" class="actual-btnn">Choose file</label>
+                                            <span id="file-chosenn" style="width:100%;">No file chosen</span>
+                                            <button id="reset-btnn" class="reset-btnn" style="display: none;">Hapus</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <div class="ml-1">
+                                            <img id="img-previeww" src="" style="width:5rem; height:5rem; display:none;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label style="font-size:12pt;"></label>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-3 mx-auto">
+                                <button class="btn btn-primary btn-block" id="create_Data"><i class="fas fa-plus"></i> Add </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/lib/adminlte/plugins/chart.js/Chart.min.js"></script>
+    <script src="~/lib/adminlte/plugins/chart.js/chartjs-plugin-datalabels@1.1.2.js"></script>
+    <script>
+        let isSearch = false;
+        $(document).on('click', '.view-pdf-btn', function () {
+            var pdfUrl = $(this).data('pdf-url');
+            window.open(pdfUrl, '_blank');
+        });
+
+        //edit
+        document.getElementById('actual-btn').addEventListener('change', function () {
+            const file = this.files[0];
+            const preview = document.getElementById('img-preview');
+            const fileNameSpan = document.getElementById('file-chosen');
+
+            if (file) {
+                const fileType = file.type;
+                const fileName = file.name;
+
+                // Reset file preview and name
+                preview.style.display = 'none';
+                fileNameSpan.textContent = '';
+
+                if (fileType.includes('image')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                } else if (fileType === 'application/pdf') {
+                    preview.style.display = 'none';
+                    fileNameSpan.textContent = fileName;
+                } else {
+                    preview.style.display = 'none';
+                    fileNameSpan.textContent = 'Unsupported file type';
+                }
+            } else {
+                fileNameSpan.textContent = 'No file chosen';
+                preview.style.display = 'none';
+            }
+        });
+
+        //add
+        document.getElementById('actual-btnn').addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                document.getElementById('file-chosenn').textContent = file.name;
+                if (file.type === 'application/pdf') {
+                    // Jika file adalah PDF, tampilkan tautan untuk membuka file PDF
+                    const pdfLink = document.createElement('a');
+                    pdfLink.href = URL.createObjectURL(file);
+                    pdfLink.textContent = 'View PDF';
+                    pdfLink.target = '_blank'; // Buka di tab atau jendela baru
+                    document.getElementById('pdf-preview-container').innerHTML = ''; // Bersihkan konten sebelumnya
+                    document.getElementById('pdf-preview-container').appendChild(pdfLink);
+                } else {
+                    // Jika file bukan PDF, tampilkan pratinjau gambar
+                    reader.addEventListener('load', function () {
+                        const preview = document.getElementById('img-previeww');
+                        preview.src = this.result;
+                        preview.style.display = 'block';
+                    });
+
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        function toggle(source) {
+            checkboxes = document.getElementsByName('foo');
+            for (var i = 0, n = checkboxes.length; i < n; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+
+        $(document).ready(function () {
+
+            $('#select_item').select2({
+                placeholder: 'select item',
+                width: '100%',
+                ajax: {
+                    url: "@Url.Action("GetCertItem0")",
+                    async: false,
+                    data: function (params) {
+                        return {
+                            family: params.term,
+                            //sector: 'none'
+                        };
+                    },
+                    processResults: function (data) {
+                        //console.log(data);
+                        return {
+                            results: data.items
+                        }
+                    },
+                }
+            });
+
+            $('#select_type').select2({
+                placeholder: 'select type',
+                width: '100%',
+                ajax: {
+                    url: "@Url.Action("GetCertType0")",
+                    async: false,
+                    data: function (params) {
+                        return {
+                            family: params.term,
+                            //sector: 'none'
+                        };
+                    },
+                    processResults: function (data) {
+                        //console.log(data);
+                        return {
+                            results: data.items
+                        }
+                    },
+                }
+            });
+
+            $('#select_by').select2({
+                placeholder: 'select cert by',
+                width: '100%',
+                ajax: {
+                    url: "@Url.Action("GetCertBy0")",
+                    async: false,
+                    data: function (params) {
+                        return {
+                            family: params.term,
+                            //sector: 'none'
+                        };
+                    },
+                    processResults: function (data) {
+                        //console.log(data);
+                        return {
+                            results: data.items
+                        }
+                    },
+                }
+            });
+
+            $('#select_year').select2({
+                placeholder: 'select year',
+                width: '100%',
+                ajax: {
+                    url: "@Url.Action("GetCertYear0")",
+                    async: false,
+                    data: function (params) {
+                        return {
+                            family: params.term,
+                            //sector: 'none'
+                        };
+                    },
+                    processResults: function (data) {
+                        //console.log(data);
+                        return {
+                            results: data.items
+                        }
+                    },
+                }
+            });
+
+            setTimeout(function () {
+                $('button[name=btn_apply]').click();
+            }, 1000);
+
+            window.setTimeout(function () {
+                location.reload();
+            }, 900000);
+        })
+
+        $('button[name=btn_apply]').click(function () {
+            item = $("#select_item").val();
+            type = $("#select_type").val();
+            cert_by = $("#select_by").val();
+            year = $("#select_year").val();
+            date_from = $('#date_from').val()
+            date_to = $('#date_to').val()
+
+            $("#table_details").html('');
+            var table = $("#table_details");
+            var table1 = $("#tbl_details_filter");
+            $.ajax({
+                url: "@Url.Action("GETCERTI")",
+                type: "POST",
+                data: {
+                    item: item,
+                    type: type,
+                    cert_by: cert_by,
+                    year: year,
+                    datefrom: date_from,
+                    dateto: date_to
+                },
+                success: function (data) {
+                    //console.log(data)
+                    if (!isSearch)
+                        isSearch = true;
+                    else
+                        table1.DataTable().destroy();
+                    table.html(data);
+                    table1.DataTable({
+                        dom: 'lrtpi',
+                        pagingType: 'numbers',
+                        searching: false
+                    });
+                },
+                complete: function () {
+                    $('#spinner_loading').hide();
+                }
+            });
+        })
+
+
+        function btn_delete(id_certi) {
+
+            if (id_certi == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please Fill in All the requirement first !'
+                })
+            }
+            else {
+                Swal.fire({
+                    title: 'Delete Certificate?',
+                    text: "Are you sure for this action? ",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Yes!',
+                    cancelButtonText: 'No!',
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                        return new Promise(function (resolve, reject) {
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("DeleteCerti", "Admin")",
+                                data: {
+                                    id_certi: id_certi
+                                },
+                                dataType: "json",
+                                success: function () {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Deleted Successfully !'
+                                    })
+                                    window.location.href = '@Url.Action("Certificate", "Admin")';
+                                },
+                                complete: function () {
+                                    $('#spinner_loading').hide();
+                                }
+                            });
+
+                        })
+                    }
+
+                })
+
+            }
+        }
+
+        $("#delete_select").click(function () {
+            var selectedIDs = new Array();
+            $('input:checkbox.select_item').each(function () {
+                if ($(this).prop('checked')) {
+                    selectedIDs.push({ id_certi: $(this).val() });
+                }
+            });
+            console.log(selectedIDs) //ada datanya
+
+            if (selectedIDs.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please Fill in All the requirement first !'
+                })
+
+            } else {
+                Swal.fire({
+                    title: 'Delete Certificate?',
+                    text: "Are you sure for this action? ",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Yes!',
+                    cancelButtonText: 'No!',
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("Delete_selected1", "Admin")",
+                            data: JSON.stringify(selectedIDs),
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function () {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: 'Delete Successfully !'
+                                })
+                                window.location.href = '@Url.Action("Certificate", "Admin")';
+                            },
+                            complete: function () {
+                                $('#spinner_loading').hide();
+                            }
+                        });
+                    }
+                })
+            }
+
+        });
+
+        function btn_edit(id_certi, itemx, typex, cert_byx, yearx, expirex, certificate) {
+            $('#id').val(id_certi);
+            $('#itemx').val(itemx);
+            $('#typex').val(typex);
+            $('#cert_byx').val(cert_byx);
+            $('#yearx').val(yearx);
+            $('#expirex').val(expirex);
+
+            // Menampilkan gambar yang diunggah
+            if (certificate) {
+                const fileType = certificate.split('.').pop().toLowerCase();
+                if (fileType === 'pdf') {
+                    $('#img-preview').hide();
+                    $('#file-chosen').text(certificate);
+                } else {
+                    $('#img-preview').attr('src', '../certi/' + certificate);
+                    $('#img-preview').show();
+                    $('#file-chosen').text('');
+                }
+            } else {
+                $('#img-preview').hide();
+                $('#file-chosen').text('No file chosen');
+            }
+            $("#modal_edit").modal('show');
+        }
+
+        $(document).ready(function () {
+            $('#actual-btn').on('change', function (event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#img-preview').attr('src', e.target.result);
+                        $('#img-preview').show();
+                    };
+                    reader.readAsDataURL(file);
+                    $('#file-chosen').text(file.name);
+                    $('#reset-btn').show();
+                }
+            });
+
+            $('#reset-btn').on('click', function () {
+                $('#actual-btn').val(null);
+                $('#img-preview').attr('src', '').hide();
+                $('#file-chosen').text('No file chosen');
+                $(this).hide();
+            });
+        });
+
+        function addData() {
+            $('#modal_add').modal('show');
+        }
+
+        function verify_save() {
+            var id_certi = $('#id').val();
+            var item = $('#itemx').val();
+            var type = $('#typex').val();
+            var cert_by = $('#cert_byx').val();
+            var year = $('#yearx').val();
+            var expire = $('#expirex').val();
+            var fileInput = $('#actual-btn')[0].files[0];
+
+            console.log({
+                id_certi: id_certi,
+                item: item,
+                type: type,
+                cert_by: cert_by,
+                year: year,
+                expire: expire,
+                fileInput: fileInput
+            });
+
+            if (item == '' || type == '' || cert_by == '' || year == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please Fill in All the requirement first !'
+                });
+            } else {
+                Swal.fire({
+                    title: 'Edit Certificate?',
+                    text: "Are you sure for this action? ",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Yes!',
+                    cancelButtonText: 'No!',
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                        return new Promise(function (resolve, reject) {
+                            var formData = new FormData();
+                            formData.append('id_certi', id_certi);
+                            formData.append('item', item);
+                            formData.append('type', type);
+                            formData.append('cert_by', cert_by);
+                            formData.append('year', year);
+                            formData.append('expire', expire);
+                            if (fileInput) {
+                                formData.append('file', fileInput);
+                            }
+
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("UpdateCerti", "Admin")",
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function () {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Edit Successfully !'
+                                    });
+                                    window.location.href = '@Url.Action("Certificate", "Admin")';
+                                },
+                                complete: function () {
+                                    $('#spinner_loading').hide();
+                                }
+                            });
+
+                        });
+                    }
+                });
+            }
+        }
+
+        $("#create_Data").click(function () {
+            var itemx = $('#itemx2').val();
+            var typex = $('#typex2').val();
+            var cert_byx = $('#cert_byx2').val();
+            var yearx = $('#yearx2').val();
+            var expirex = $('#expirex2').val();
+            var fileInput = $('#actual-btnn')[0].files[0]; // Ambil file yang diunggah
+
+            if (itemx == '' || typex == '' || cert_byx == '' || yearx == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please Fill in All the requirement first !'
+                });
+            } else {
+                console.log("Data yang diisi oleh pengguna:");
+                console.log("item:", itemx);
+                console.log("type:", typex);
+                console.log("cert_by:", cert_byx);
+                console.log("year:", yearx);
+                console.log("expire:", expirex);
+
+                console.log("File yang diunggah:");
+                console.log("Nama File:", fileInput.name);
+                console.log("Tipe File:", fileInput.type);
+
+                var formData = new FormData(); // Buat objek FormData untuk mengirim data termasuk file
+                formData.append('file', fileInput); // Tambahkan file ke FormData
+                formData.append('item', itemx);
+                formData.append('type', typex);
+                formData.append('cert_by', cert_byx);
+                formData.append('year', yearx);
+                formData.append('expire', expirex);
+
+                Swal.fire({
+                    title: 'Add New Certificate?',
+                    text: "Are you sure for this action?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Yes!',
+                    cancelButtonText: 'No!',
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                        return new Promise(function (resolve, reject) {
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("AddCerti", "Admin")",
+                                data: formData, // Kirim data menggunakan FormData
+                                contentType: false, // Set contentType ke false agar FormData tidak diubah secara otomatis
+                                processData: false, // Set processData ke false agar FormData tidak diubah secara otomatis
+                                success: function (data) {
+                                    Swal.fire(
+                                        'Added!',
+                                        'New Certificate has been Added.',
+                                        'success'
+                                    );
+                                    window.location.href = '@Url.Action("Certificate", "Admin")';
+                                },
+                                complete: function () {
+                                    $('#spinner_loading').hide();
+                                }
+                            });
+
+                        })
+                    }
+                })
+            }
+        });
+
+    </script>
+    <style>
+        label.actual-btn {
+            display: inline-block;
+            background-color: #ffc107;
+            color: white;
+            padding: 0.5rem;
+            font-family: sans-serif;
+            border-radius: 0.3rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            width: 10rem;
+            text-align: center;
+        }
+
+        #file-chosen {
+            margin-left: 0.3rem;
+            font-family: sans-serif;
+        }
+
+        label.actual-btnn {
+            display: inline-block;
+            background-color: #ffc107;
+            color: white;
+            padding: 0.5rem;
+            font-family: sans-serif;
+            border-radius: 0.3rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            width: 10rem;
+            text-align: center;
+        }
+
+        #file-chosenn {
+            margin-left: 0.3rem;
+            font-family: sans-serif;
+        }
+
+        .modal-dialog {
+            max-width: 110% !important;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        .modal {
+            padding-right: 4px !important;
+            padding: .5%;
+        }
+
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 12px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+}
+
+
+

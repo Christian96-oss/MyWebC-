@@ -1,0 +1,16 @@
+﻿@using System.Globalization
+
+@using MYWEB.Models
+@model List<SendcvbyModel>
+
+@foreach (SendcvbyModel item in Model)
+{
+    <tr>
+        <td class="align-middle text-center border-right"><input type="checkbox" name="foo" class="select_item" value="@item.id" /></td>
+        <td class="align-middle text-center border-right">@item.sendcv_by</td>
+        <td class="align-middle text-center border-right"> @item.user_id </td>
+        <td class="align-middle text-center border-right"> @item.record_date </td>
+        <td class="align-middle text-center"><button class="btn btn-danger btn-sm" id="DELETE" style="width:3rem;" onclick="btn_delete('@item.id')"><i class="fas fa-trash"></i></button>&emsp;<button class="btn btn-success btn-sm" style="width:3rem;" id="EDIT" onclick="btn_edit('@item.id', '@item.sendcv_by')"><i class="fas fa-edit"></i> </button></td>
+
+    </tr>
+}
